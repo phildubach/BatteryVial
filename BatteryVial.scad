@@ -21,25 +21,19 @@ custom_l = 51;
 extra_d = 0.8;
 extra_l = 1;
 
-if (size == "AAA") {
-    inner_d = 10.5 + extra_d;
-    inner_l = 44.5 + extra_l;
-} else if (size == "AA") {
-    inner_d = 14.2 + extra_d;
-    inner_l =   50 + extra_l;
-} else if (size == "C") {
-    inner_d = 26 + extra_d;
-    inner_l = 46 + extra_l;
-} else if (size == "D") {
-    inner_d = 33 + extra_d;
-    inner_l = 58 + extra_l;
-} else if (size == "18650") {
-    inner_d = 18 + extra_d;
-    inner_l = 65 + extra_l;
-} else if (size == "custom") {
-    inner_d = custom_d;
-    inner_l = custom_l;
-}
+inner_d = extra_d + (size == "AAA") ? 10.5 :
+                    (size == "AA") ? 14.2 :
+                    (size == "C") ? 26 :
+                    (size == "D") ? 33 :
+                    (size == "18650") ? 18 :
+                    custom_d;
+
+inner_l = extra_l + (size == "AAA") ? 44.5 :
+                    (size == "AA") ? 50 :
+                    (size == "C") ? 46 :
+                    (size == "D") ? 58 :
+                    (size == "18650") ? 65 :
+                    custom_l;
 
 function cat(nested) = [ for(a=nested) for (b=a) b ];
 
@@ -102,7 +96,7 @@ if (part == "cap") {
     difference() {
         $fn = 100;
         union() {
-            *for (a = [0:360/n_threads:359]) helix(r_outer, thread_l, pitch, profile, start=a, $fa=4);
+            for (a = [0:360/n_threads:359]) helix(r_outer, thread_l, pitch, profile, start=a, $fa=4);
             cylinder(r=r_outer, h=thread_l);
             translate([0,0,-grip_h]) cylinder(r=r_cap, h=grip_h);
         }
@@ -120,7 +114,7 @@ if (part == "cap") {
         tube_h = inner_l+wall-grip_h+wall;
         cylinder(r=r_cap, h=tube_h);
         translate([0,0,tube_h-thread_l-1]) {
-            *for (a = [0:360/n_threads:359]) helix(r_outer, thread_l + 5, pitch, profile, start=a, $fa=4);
+            for (a = [0:360/n_threads:359]) helix(r_outer, thread_l + 5, pitch, profile, start=a, $fa=4);
         }
         translate([0,0,wall]) cylinder(r=r_inner, h=tube_h+eps-wall);
         translate([0,0,tube_h-thread_l-1]) cylinder(r=r_outer+gap, h=thread_l+1+eps);
