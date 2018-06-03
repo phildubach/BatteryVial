@@ -18,24 +18,8 @@ custom_d = 15.0;
 // inner length (for custom size)
 custom_l = 51;
 
-extra_d = 0.8;
-extra_l = 1;
-
-inner_d = extra_d + (size == "AAA") ? 10.5 :
-                    (size == "AA") ? 14.2 :
-                    (size == "C") ? 26 :
-                    (size == "D") ? 33 :
-                    (size == "18650") ? 18 :
-                    custom_d;
-
-inner_l = extra_l + (size == "AAA") ? 44.5 :
-                    (size == "AA") ? 50 :
-                    (size == "C") ? 46 :
-                    (size == "D") ? 58 :
-                    (size == "18650") ? 65 :
-                    custom_l;
-
 function cat(nested) = [ for(a=nested) for (b=a) b ];
+
 
 module helix(radius, height, pitch, poly, start=0) {
     maxr = max([for (i = poly) i[1]]);
@@ -68,6 +52,23 @@ module helix(radius, height, pitch, poly, start=0) {
 
     polyhedron(points=points, faces=faces, convexity=2);
 }
+
+extra_d = 0.8; // oversize for inner diameter
+extra_l = 1; // oversize for inner length
+
+inner_d = extra_d + ((size == "AAA") ? 10.5 :
+                     (size == "AA") ? 14.2 :
+                     (size == "C") ? 26 :
+                     (size == "D") ? 33 :
+                     (size == "18650") ? 18 :
+                     custom_d);
+
+inner_l = extra_l + ((size == "AAA") ? 44.5 :
+                     (size == "AA") ? 50 :
+                     (size == "C") ? 46 :
+                     (size == "D") ? 58 :
+                     (size == "18650") ? 65 :
+                     custom_l);
 
 eps = 0.01; // epsilon for overlaps
 pd = 0.8;   // thread depth
