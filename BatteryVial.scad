@@ -61,14 +61,14 @@ inner_d = extra_d + ((size == "AAA") ? 10.5 :
                      (size == "C") ? 26 :
                      (size == "D") ? 33 :
                      (size == "18650") ? 18 :
-                     custom_d);
+                     (custom_d - extra_d));
 
 inner_l = extra_l + ((size == "AAA") ? 44.5 :
                      (size == "AA") ? 50 :
                      (size == "C") ? 46 :
                      (size == "D") ? 58 :
                      (size == "18650") ? 65 :
-                     custom_l);
+                     (custom_l - extra_l));
 
 eps = 0.01; // epsilon for overlaps
 pd = 0.8;   // thread depth
